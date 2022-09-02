@@ -1,7 +1,7 @@
 import random
 # import pygame
 from pygame.locals import *
-# from authentication_setup import *
+# from encryption_setup import *
 from ui_utils import *
 
 xCenter = int(WINDOW_WIDTH / 2)
@@ -14,7 +14,7 @@ mouseClick = pygame.mixer.Sound('snd/click.mp3')
 
 
 def main_finish():
-    pygame.display.set_caption('Authentication Challenge - Finish')
+    pygame.display.set_caption('Encryption Challenge - Finish')
     lockIcon = pygame.image.load('gfx/lock.ico')
     pygame.display.set_icon(lockIcon)
 

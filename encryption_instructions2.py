@@ -1,14 +1,65 @@
-import pygame
+# import pygame
 from pygame.locals import *
-from encryption_setup import *
+# from encryption_setup import *
+from ui_utils import *
+
 
 xCenter = int(WINDOW_WIDTH / 2)
 yCenter = int(WINDOW_HEIGHT / 2) - 100
+
+novice_question = 'txt/novice_question.txt'
+intermediate_question = 'txt/intermediate_question.txt'
+expert_question = 'txt/expert_question.txt'
 
 gameSurface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), HWSURFACE | DOUBLEBUF)
 
 pygame.mixer.init(48000, -16, 1, 1024)
 mouseClick = pygame.mixer.Sound('snd/click.mp3')
+
+
+def get_intro_text(age):
+    level = get_agent_level(int(age))
+    if level == 1:
+        file = novice_question
+    elif level == 2:
+        file = intermediate_question
+    else:
+        file = expert_question
+
+    question = ''
+    introFile = open(file, "r")
+    for line in introFile:
+        text = parse_agent_content(line, '', '', '')
+        question += text + "\n"
+    introFile.close()
+    return question
+
+
+def show_intro_text(age):
+    question_text = get_intro_text(age)
+    print(question_text)
+    print_intro_text(100, 150, question_text)
+
+
+def print_intro_text(xPos, yPos, text):
+    lines = text.split('\n')
+
+    backColor = DARK_GREY
+    textSize = 40
+    yBuffer = 16
+
+    fontTitle = pygame.font.Font("fonts/consolas.ttf", textSize)
+
+    for line in lines:
+        line = line.rstrip('\n')
+        textTitle = fontTitle.render(line, True, LIME_GREEN, backColor)
+        textTitleRect = textTitle.get_rect()
+        if xPos < 0:
+            textTitleRect.center = (WINDOW_WIDTH/2, yPos)
+        else:
+            textTitleRect.topleft = (xPos, yPos)
+        gameSurface.blit(textTitle, textTitleRect)
+        yPos += (textSize + yBuffer)
 
 
 def do_intro1(xPos, yPos):
@@ -30,23 +81,8 @@ def do_intro1(xPos, yPos):
     instruct1File.close()
 
 
-def do_intro2(xPos, yPos):
-    instruct2File = open('txt/instruct2.txt', "r")
-    for line in instruct2File:
-        text = line.rstrip('\n')
-        textSize = 32
-        yBuffer = 0
-        fontTitle = pygame.font.Font("fonts/consolas.ttf", textSize)
-        textTitle = fontTitle.render(text, True, LIME_GREEN)
-        textTitleRect = textTitle.get_rect()
-        textTitleRect.center = (xCenter, yPos + 60)
-        gameSurface.blit(textTitle, textTitleRect)
-        yPos += (32 + yBuffer)
-    instruct2File.close()
-
-
-def main_instructions():
-    pygame.display.set_caption('Caesar Cipher Challenge - Instructions')
+def main_instructions2(agentAge):
+    pygame.display.set_caption('Caesar Cipher Challenge - Instructions (part 2)')
     lockIcon = pygame.image.load('gfx/lock.ico')
     pygame.display.set_icon(lockIcon)
 
@@ -56,18 +92,7 @@ def main_instructions():
     x = 100
     y = 100
 
-    do_intro1(x, y)
-    do_intro2(x, y+500)
-
-    cipherAlpha = pygame.image.load('gfx/cipher_shift3.png')
-    cipherAlphaRect = cipherAlpha.get_rect()
-    cipherAlphaRect.center = (xCenter, yCenter + 110)
-    gameSurface.blit(cipherAlpha, cipherAlphaRect)
-
-    cipherApple = pygame.image.load('gfx/cipher_apple.png')
-    cipherAppleRect = cipherApple.get_rect()
-    cipherAppleRect.center = (xCenter, yCenter + 320)
-    gameSurface.blit(cipherApple, cipherAppleRect)
+    show_intro_text(agentAge)
 
     nextButton = pygame.image.load('gfx/next_button.png')
     nextHoverButton = pygame.image.load('gfx/next_button_hover.png')
@@ -130,5 +155,5 @@ def main_instructions():
 
 if __name__ == '__main__':
     pygame.init()
-    main_instructions()
+    main_instructions2()
     pygame.quit()

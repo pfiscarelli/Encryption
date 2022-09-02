@@ -1,8 +1,9 @@
 import math
 import random
-import pygame
-from pygame.locals import *
-from encryption_setup import *
+# import pygame
+# from pygame.locals import *
+# from encryption_setup import *
+from encryption_results import *
 
 SPACE_REF = 32
 A_REF = 65
@@ -11,11 +12,15 @@ Z_REF = 90
 WHEEL_LEFT = 1
 WHEEL_RIGHT = -1
 
+pygame.mixer.init(48000, -16, 1, 1024)
+mouseClick = pygame.mixer.Sound('snd/click.mp3')
+
 xCenter = int(WINDOW_WIDTH / 2)
 yCenter = int(WINDOW_HEIGHT / 2) - 100
 
 clock = pygame.time.Clock()
-CLEAR_TEXT = 'WE HOPE YOU ENJOY YOUR VISIT TO LINCOLN LABORATORY'
+
+# CLEAR_TEXT = 'WE HOPE YOU ENJOY YOUR VISIT TO LINCOLN LABORATORY'
 CLEAR_TEXT_NOVICE = 'WE HOPE YOU ENJOY YOUR VISIT TO LINCOLN LABORATORY'
 CLEAR_TEXT_INTERMEDIATE = 'WELCOME TO LINCOLN LABORATORY'
 CLEAR_TEXT_EXPERT = 'WELCOME TO LINCOLN LABORATORY'
@@ -32,6 +37,16 @@ def getMouseAngle(position):
         angle += 360.0
     # print('angle is: ' + str(angle))
     return angle
+
+
+def get_clear_text(level):
+    if level == 1:
+        text = CLEAR_TEXT_NOVICE
+    elif level == 2:
+        text = CLEAR_TEXT_INTERMEDIATE
+    else:
+        text = CLEAR_TEXT_EXPERT
+    return text
 
 
 def getCipherText(message, seed):
@@ -74,25 +89,33 @@ def getKeyIn(inputKey):
         return ''
 
 
-def getCursorPosition(inputText):
+def getCursorPosition(inputText, clearText):
     newCursorPosition = len(inputText)
-    if newCursorPosition >= len(CLEAR_TEXT):
+    if newCursorPosition >= len(clearText):
         newCursorPosition -= 1
     elif newCursorPosition < 1:
         newCursorPosition = 0
     return newCursorPosition
 
 
-def checkResults(inString, inlevel):
-    if inString == CLEAR_TEXT:
-        return inlevel
+def show_secret_key(key, level):
+    return 0
+
+
+def checkResults(inString, clearText):
+    print('clear text is: ' + str(clearText))
+    print('submitted text is: ' + str(inString))
+    if inString == clearText:
+        return 1
     else:
         return 0
 
 
-def main_wheel(levelSelect):
+def main_challenge(levelSelect, agentName, agentAge, agentSecret, agentHacked):
     print('gameLevel: ' + str(levelSelect))
     fontSize = 48
+
+    clearText = get_clear_text(levelSelect)
 
     # get random seed from 1-to-25 (omit A=0)
     cipherSeed = random.randrange(1, 25)
@@ -109,11 +132,11 @@ def main_wheel(levelSelect):
     outerWheel = pygame.image.load('gfx/cipher_wheel_outer.png').convert_alpha()
     rotatedOuter = pygame.transform.rotate(outerWheel, 0.0)
     rotatedOuterRect = rotatedOuter.get_rect()
-    rotatedOuterRect.center = (xCenter, yCenter)
+    rotatedOuterRect.center = (xCenter, yCenter - 50)
 
-    innerWheel = pygame.image.load('gfx/cipher_wheel_inner.png').convert_alpha()
+    innerWheel = pygame.image.load('gfx/cipher_wheel_inner_new.png').convert_alpha()
     innerRect = innerWheel.get_rect()
-    innerRect.center = (xCenter, yCenter)
+    innerRect.center = (xCenter, yCenter - 50)
     
     backButton = pygame.image.load('gfx/back_button.png')
     backHoverButton = pygame.image.load('gfx/back_button_hover.png')
@@ -121,39 +144,48 @@ def main_wheel(levelSelect):
     backButtonRect = backButton.get_rect()
     backButtonRect.center = (xCenter-700, yCenter + 550)
     
-    finishButton = pygame.image.load('gfx/finish_button.png')
-    finishHoverButton = pygame.image.load('gfx/finish_button_hover.png')
-    finishClickButton = pygame.image.load('gfx/finish_button_click.png')
-    finishButtonRect = finishButton.get_rect()
-    finishButtonRect.center = (xCenter+700, yCenter + 550)
+    submitButton = pygame.image.load('gfx/submit_button.png')
+    submitHoverButton = pygame.image.load('gfx/submit_button_hover.png')
+    submitClickButton = pygame.image.load('gfx/submit_button_click.png')
+    submitButtonRect = submitButton.get_rect()
+    submitButtonRect.center = (xCenter+700, yCenter + 550)
 
     # Set fonts
-    gameFont = pygame.font.Font('fonts/consolas.ttf', 16)
-    codeFont = pygame.font.Font('fonts/consolasb.ttf', 80)
+    keyFont = pygame.font.Font('fonts/consolasb.ttf', 48)
+    codeFont = pygame.font.Font('fonts/consolasb.ttf', 64)
     cipherFont = pygame.font.Font('fonts/consolasb.ttf', fontSize)
 
-    cipherText = getCipherText(CLEAR_TEXT, cipherSeed)
+    cipherText = getCipherText(clearText, cipherSeed)
     cipherSurf = cipherFont.render(cipherText, True, LIME_GREEN, LIGHT_GREY)
     cipherRect = cipherSurf.get_rect()
-    cipherRect.center = (xCenter, WINDOW_HEIGHT - 200)
+    cipherRect.center = (xCenter, WINDOW_HEIGHT - 250)
     gameSurface.blit(cipherSurf, cipherRect)
     print('cipherText: ' + cipherText)
+
+    keyText = 'A=' + chr(A_REF + cipherSeed)
+    keySurf = keyFont.render(keyText, True, RED)
+    keyRect = keySurf.get_rect()
+    keyRect.center = (xCenter, yCenter + 100)
+    gameSurface.blit(keySurf, keyRect)
+
+    secretKeyText = "Secret Key"
+    secretKeySurf = keyFont.render(secretKeyText, True, RED)
+    secretKeyRect = secretKeySurf.get_rect()
+    secretKeyRect.center = (xCenter, yCenter + 50)
+    gameSurface.blit(secretKeySurf, secretKeyRect)
 
     codeText = 'A=A'
     codeSurf = codeFont.render(codeText, True, BLACK)
     codeRect = codeSurf.get_rect()
-    codeRect.center = (xCenter, yCenter + 125)
+    codeRect.center = (xCenter, yCenter - 150)
     gameSurface.blit(codeSurf, codeRect)
 
-    inputText = len(CLEAR_TEXT) * chr(32)
+    inputText = len(clearText) * chr(32)
     inputSurf = cipherFont.render(inputText, True, LIME_GREEN)
     inputRect = inputSurf.get_rect()
-    inputRect.center = (xCenter, WINDOW_HEIGHT - 140)
+    inputRect.center = (xCenter, WINDOW_HEIGHT - 190)
     pygame.draw.rect(gameSurface, BLACK, inputRect)
     gameSurface.blit(inputSurf, inputRect)
-
-    pygame.mixer.init(48000, -16, 1, 1024)
-    mouseClick = pygame.mixer.Sound('snd/click.mp3')
 
     cursorX = inputRect.x + 2
     cursorY = inputRect.y + fontSize - 8
@@ -162,7 +194,7 @@ def main_wheel(levelSelect):
     cursorMoveX = (fontSize / 2) + 2
 
     cursorPosition = (cursorX, cursorY)
-    cursorLocation = 0
+    # cursorLocation = 0
     cursorRect = Rect(cursorPosition, (cursorSizeX, cursorSizeY))
 
     rotationAngle = 0.0
@@ -181,8 +213,10 @@ def main_wheel(levelSelect):
     gameClock = 100
     cursorColor = BLUE
 
-    finishButt = finishButton
+    submitButt = submitButton
     backButt = backButton
+
+    showHint = False
 
     inputString = ''
 
@@ -192,8 +226,12 @@ def main_wheel(levelSelect):
         gameSurface.blit(innerWheel, innerRect)
         gameSurface.blit(codeSurf, codeRect)
         gameSurface.blit(cipherSurf, cipherRect)
-        gameSurface.blit(finishButt, finishButtonRect)
+        gameSurface.blit(submitButt, submitButtonRect)
         gameSurface.blit(backButt, backButtonRect)
+
+        if levelSelect == 2 or showHint:
+            gameSurface.blit(keySurf, keyRect)
+            gameSurface.blit(secretKeySurf, secretKeyRect)
 
         if levelSelect > 1:
             pygame.draw.rect(gameSurface, BLACK, inputRect)
@@ -209,30 +247,33 @@ def main_wheel(levelSelect):
                 elif event.key == pygame.K_RIGHT:
                     keyRotate = True
                     wheelDirection = WHEEL_RIGHT
+                elif event.key == pygame.K_h and pygame.KMOD_CTRL:
+                    showHint = True
+                    print("CTRL+H is pressed")
                 else:
                     if levelSelect > 1:
                         keyIn = getKeyIn(event.key)
                         if keyIn == 'BS':
                             inputString = inputString[:-1]
                         else:
-                            if len(inputString) < len(CLEAR_TEXT):
+                            if len(inputString) < len(clearText):
                                 inputString += keyIn
                                 pygame.draw.rect(gameSurface, BLACK, cursorRect)
                             else:
                                 tempString = inputString[:-1] + keyIn
                                 inputString = tempString
-                        cursorLocation = getCursorPosition(inputString)
+                        cursorLocation = getCursorPosition(inputString, clearText)
                         cursorPosition = (cursorX + (cursorLocation * cursorMoveX), cursorY)
                         cursorRect = Rect(cursorPosition, (cursorSizeX, cursorSizeY))
                         inputSurf = cipherFont.render(inputString, True, LIME_GREEN)
             elif event.type == MOUSEMOTION:
                 if event.pos[1] > 900:
-                    if finishButtonRect.collidepoint(event.pos):
-                        finishButt = finishHoverButton
+                    if submitButtonRect.collidepoint(event.pos):
+                        submitButt = submitHoverButton
                     elif backButtonRect.collidepoint(event.pos):
                         backButt = backHoverButton
                     else:
-                        finishButt = finishButton
+                        submitButt = submitButton
                         backButt = backButton
                 else:
                     # print(event.pos)
@@ -241,28 +282,32 @@ def main_wheel(levelSelect):
                         doRotate = True
             elif event.type == MOUSEBUTTONDOWN:
                 if event.pos[1] > 900:
-                    if finishButtonRect.collidepoint(event.pos):
-                        finishButt = finishClickButton
+                    if submitButtonRect.collidepoint(event.pos):
+                        submitButt = submitClickButton
                         mouseClick.play()
                     elif backButtonRect.collidepoint(event.pos):
                         backButt = backClickButton
                         mouseClick.play()
                     else:
-                        finishButt = finishButton
+                        submitButt = submitButton
                         backButt = backButton
                 else:
                     mouseButtonDown = True
                     mouseDownRotation = getMouseAngle(event.pos)
             elif event.type == MOUSEBUTTONUP:
                 if event.pos[1] > 900:
-                    if finishButtonRect.collidepoint(event.pos):
-                        # finishButt = finishHoverButton
-                        return checkResults(inputString, levelSelect)
+                    if submitButtonRect.collidepoint(event.pos):
+                        # submitButt = submitHoverButton
+                        # return checkResults(inputString, levelSelect)
+                        score = checkResults(inputString, clearText)
+                        retryAttempt = main_results(levelSelect, agentName, agentAge, agentSecret,
+                                                    agentHacked, score, inputString)
+                        return retryAttempt
                     elif backButtonRect.collidepoint(event.pos):
                         # backButt = backHoverButton
                         return -1
                     else:
-                        finishButt = finishButton
+                        submitButt = submitButton
                         backButt = backButton
                 else:
                     mouseButtonDown = False
@@ -285,17 +330,20 @@ def main_wheel(levelSelect):
         if doRotate:
             rotatedOuter = pygame.transform.rotozoom(outerWheel, angleDiff, 1.0)
             rotatedOuterRect = rotatedOuter.get_rect()
-            rotatedOuterRect.center = (xCenter, yCenter)
+            rotatedOuterRect.center = (xCenter, yCenter - 50)
             wheelPosition = getWheelPosition(angleDiff)
             # print('wheelPosition: ' + str(wheelPosition) + " : " + 'rotationAngle: ' + str(rotationAngle) + " : " +
             #      'angleDiff: ' + str(angleDiff) + " : " + str(xCenter) + " " + str(yCenter))
-            cipherText = getCipherText(CLEAR_TEXT, abs(wheelPosition - cipherSeed))
+            cipherText = getCipherText(clearText, abs(wheelPosition - cipherSeed))
             if levelSelect <= 1:
                 cipherSurf = cipherFont.render(cipherText, True, LIME_GREEN, LIGHT_GREY)
                 inputString = cipherText
             # print('wheelPosition: ' + wheelPosition)
             codeText = 'A=' + chr(A_REF + wheelPosition)
             codeSurf = codeFont.render(codeText, True, BLACK)
+            if gameLevel == 2:
+                keySurf = keyFont.render(keyText, True, RED)
+                secretKeySurf = keyFont.render(secretKeyText, True, RED)
             doRotate = False
 
         cursorTime += 1
@@ -309,7 +357,7 @@ def main_wheel(levelSelect):
 
         if cursorTime >= (FPS/2):
             cursorTime = 0
-            if len(inputString) != len(CLEAR_TEXT):
+            if len(inputString) != len(clearText):
                 if cursorColor == BLUE:
                     cursorColor = BLACK
                 else:
@@ -323,6 +371,6 @@ def main_wheel(levelSelect):
 
 if __name__ == '__main__':
     pygame.init()
-    main_wheel(gameLevel)
+    main_challenge(gameLevel, agentName='', agentAge='', agentSecret='', agentHacked='')
     pygame.quit()
     # sys.exit()

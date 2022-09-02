@@ -1,10 +1,5 @@
-Sorry, Agent <agent_name>, '<password>' is not a strong enough password.
+Sorry, Agent <agent_name>. The correct message was:
 
-            Password is at least 12-characters in length
-            Password contains at least one numeric digit
-            Password contains at least one uppercase character
-            Password contains at least one lowercase character
-            Password contains at least one special character
+"Welcome to Lincoln Laboratory"
 
-Click 'Back' if you would like to try again, or click 'Next' to finish
-this challenge and move on to the next exercise.
+Ciphers are hard, better luck next time.

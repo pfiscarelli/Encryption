@@ -1,0 +1,5 @@
+To solve this challenge, use the Caesar Cipher code wheel to decrypt
+the encoded message. Simply click on the wheel or use the left/right
+arrow keys, until you can read the message below the wheel.
+
+Click 'Submit' when you have decrypted the encoded message.

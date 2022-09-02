@@ -1,4 +1,3 @@
-Good job, Agent <agent_name>, that's correct!
+Good job, Agent <agent_name>!
 
-Longer passwords with a mix of letters, numbers, and other symbols,
-that do not have English words in them are good passwords.
+You cracked the code!

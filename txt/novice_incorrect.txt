@@ -1,10 +1,5 @@
-Sorry, Agent <agent_name> you did not answer the question correctly.
+Sorry, Agent <agent_name>. The correct message was:
 
-Overall, you should never share your password with anyone. But while you are
-still in school, it is okay to share your password with your parents.
+"We hope you enjoy your visit to Lincoln Laboratory"
 
-Even though you like your friends and your teachers, it is not a good idea to
-share your passwords with them.
-The more people who know your password, the more unsafe your secret is.
-
-And you should never, ever share your password with a stranger.
+Ciphers are hard, better luck next time.

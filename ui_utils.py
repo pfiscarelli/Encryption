@@ -124,6 +124,17 @@ def show_agent_record(name, age, secret, hacked):
     print("Hacked: " + str(hacked))
 
 
+def get_agent_level(age):
+    print("Agent age is: " + str(age))
+    if int(age) < 8:
+        level = 1
+    elif int(age) < 13:
+        level = 2
+    else:
+        level = 3
+    return level
+
+
 def parse_agent_content(inText, name, age, password):
     stripText = inText.rstrip('\n')
     tempText = stripText.replace('<agent_name>', name)

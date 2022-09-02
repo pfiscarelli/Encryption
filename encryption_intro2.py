@@ -1,14 +1,14 @@
 import pygame
 from pygame.locals import *
 from encryption_setup import *
+from ui_utils import *
 
 xCenter = int(WINDOW_WIDTH / 2)
 yCenter = int(WINDOW_HEIGHT / 2) - 100
 
 gameSurface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), HWSURFACE | DOUBLEBUF)
 
-pygame.mixer.init(48000, -16, 1, 1024)
-mouseClick = pygame.mixer.Sound('snd/click.mp3')
+
 
 
 def do_intro1(xPos, yPos):
@@ -66,7 +66,7 @@ def main_instructions():
 
     cipherApple = pygame.image.load('gfx/cipher_apple.png')
     cipherAppleRect = cipherApple.get_rect()
-    cipherAppleRect.center = (xCenter, yCenter + 320)
+    cipherAppleRect.center = (xCenter, yCenter + 290)
     gameSurface.blit(cipherApple, cipherAppleRect)
 
     nextButton = pygame.image.load('gfx/next_button.png')
@@ -76,14 +76,14 @@ def main_instructions():
     nextButtonRect.center = (xCenter+400, yCenter + 550)
     # gameSurface.blit(nextButt, nextButtonRect)
 
-    # backButton = pygame.image.load('gfx/back_button.png')
-    # backHoverButton = pygame.image.load('gfx/back_button_hover.png')
-    # backClickButton = pygame.image.load('gfx/back_button_click.png')
-    # backButtonRect = backButton.get_rect()
-    # backButtonRect.center = (xCenter-400, yCenter + 550)
+    backButton = pygame.image.load('gfx/back_button.png')
+    backHoverButton = pygame.image.load('gfx/back_button_hover.png')
+    backClickButton = pygame.image.load('gfx/back_button_click.png')
+    backButtonRect = backButton.get_rect()
+    backButtonRect.center = (xCenter-400, yCenter + 550)
 
     nextButt = nextButton
-    # backButt = backButton
+    backButt = backButton
     buttonDown = False
     doneIntro = False
 
@@ -94,25 +94,24 @@ def main_instructions():
                 if nextButtonRect.collidepoint(event.pos):
                     if buttonDown:
                         nextButt = nextClickButton
-                        # print('mouse over button down' + str(event.pos))
+                        print('mouse over button down' + str(event.pos))
                     else:
                         nextButt = nextHoverButton
-                        # print('mouse over button' + str(event.pos))
+                        print('mouse over button' + str(event.pos))
                 else:
                     nextButt = nextButton
                     buttonDown = False
             elif event.type == MOUSEBUTTONDOWN:
                 if nextButtonRect.collidepoint(event.pos):
                     nextButt = nextClickButton
-                    # print('mouse click button' + str(event.pos))
-                    mouseClick.play()
+                    print('mouse click button' + str(event.pos))
                     buttonDown = True
                 else:
                     nextButt = nextButton
             elif event.type == MOUSEBUTTONUP:
                 if nextButtonRect.collidepoint(event.pos):
                     nextButt = nextHoverButton
-                    # print('mouse over button' + str(event.pos))
+                    print('mouse over button' + str(event.pos))
                     doneIntro = True
                 else:
                     nextButt = nextButton
@@ -120,9 +119,9 @@ def main_instructions():
                 doneIntro = True
 
         pygame.draw.rect(gameSurface, DARK_GREY, nextButtonRect)
-        # pygame.draw.rect(gameSurface, DARK_GREY, backButtonRect)
+        pygame.draw.rect(gameSurface, DARK_GREY, backButtonRect)
         gameSurface.blit(nextButt, nextButtonRect)
-        # gameSurface.blit(backButt, backButtonRect)
+        gameSurface.blit(backButt, backButtonRect)
 
         pygame.display.flip()
         clock.tick(FPS)

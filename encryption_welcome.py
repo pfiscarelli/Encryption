@@ -43,7 +43,7 @@ def do_intro(xPos, yPos, name, age):
 
 
 def main_welcome(doneIntro, agentName, agentAge):
-    pygame.display.set_caption('Authentication Challenge - Introduction')
+    pygame.display.set_caption('Encryption Challenge - Introduction')
     lockIcon = pygame.image.load('gfx/lock.ico')
     pygame.display.set_icon(lockIcon)
 

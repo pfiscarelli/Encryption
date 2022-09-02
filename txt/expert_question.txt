@@ -1,0 +1,13 @@
+To solve this challenge, use the Caesar Cipher code wheel to decrypt
+the encoded message.
+
+You must determine the correct 'Key' and use that 'Key' to decrypt
+the hidden message. Keep trying different keys until you start to see words
+that make sense and correctly decode the message.
+
+To decrypt the encrypted message, work from the inside wheel to
+the outside wheel.
+
+Use the mouse, or left and right arrow keys to move the code wheel.
+
+Click 'Submit' when you have decrypted the encoded message.
