@@ -1,0 +1,5 @@
+Good job, Agent <agent_name>, that's correct!
+
+Overall, you should never share your password with anyone. But while
+you are still in school, it is okay to share your password with
+your parents.

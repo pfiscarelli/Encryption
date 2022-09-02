@@ -1,0 +1,7 @@
+Good job, Agent <agent_name>, '<password>' is a really strong password!
+
+            Password is at least 12-characters in length
+            Password contains at least one numeric digit
+            Password contains at least one uppercase character
+            Password contains at least one lowercase character
+            Password contains at least one special character

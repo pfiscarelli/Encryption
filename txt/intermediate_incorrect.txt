@@ -1,0 +1,7 @@
+Sorry, Agent <agent_name> you did not answer the question correctly.
+
+A password with your name, a string of sequential numbers or letters, or
+words from the dictionary are not good passwords.
+
+Good passwords have a mix of letters, numbers, and other symbols, and do not
+have English words in them.

@@ -1,0 +1,25 @@
+# Constants
+WINDOW_WIDTH = 1920
+WINDOW_HEIGHT = 1080
+FPS = 30
+
+# RGB Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+YELLOW = (255, 255, 0)
+LIGHT_GREY = (48, 48, 48)
+DARK_GREY = (32, 32, 32)
+LIME_GREEN = (0, 224, 0)
+
+# Agent File
+AGENT_FILE = 'agent_file.txt'
+
+# Activity Index
+AUTHENTICATION = 1
+ENCRYPTION = 2
+MINIMAL_TRUST = 3
+SEGMENTATION = 4
+MONITOR_ADJUSTMENT = 5

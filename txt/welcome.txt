@@ -1,0 +1,17 @@
+This challenge is about Encryption.
+
+Hello again Agent <agent_name>!
+
+This challenge is about Encryption.
+
+Encrypting a message means translating it to a code that is hard
+for a spy to read. To encrypt it, you use the key to convert
+each letter into a different letter.
+
+To make it readable again, you use that same key to convert
+the coded letter back to the original letter.
+
+In this challenge, you will be asked to solve an encryption puzzle
+to protect your secret message from the spies!
+
+Good luck!
