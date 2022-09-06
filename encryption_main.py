@@ -23,7 +23,7 @@ gameLevel = ('novice', 'intermediate', 'expert')
 
 
 def main():
-    pygame.display.set_caption('Caesar Cipher Challenge')
+    pygame.display.set_caption('Encryption Challenge')
     lockIcon = pygame.image.load('gfx/lock.ico')
     pygame.display.set_icon(lockIcon)
 

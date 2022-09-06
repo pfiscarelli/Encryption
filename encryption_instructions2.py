@@ -82,7 +82,7 @@ def do_intro1(xPos, yPos):
 
 
 def main_instructions2(agentAge):
-    pygame.display.set_caption('Caesar Cipher Challenge - Instructions (part 2)')
+    pygame.display.set_caption('Encryption Challenge - Instructions (part 2)')
     lockIcon = pygame.image.load('gfx/lock.ico')
     pygame.display.set_icon(lockIcon)
 

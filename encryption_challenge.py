@@ -125,7 +125,7 @@ def main_challenge(levelSelect, agentName, agentAge, agentSecret, agentHacked):
 
     gameSurface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), HWSURFACE | DOUBLEBUF)
     lockIcon = pygame.image.load('gfx/lock.ico')
-    pygame.display.set_caption('Caesar Cipher Challenge - Decryption')
+    pygame.display.set_caption('Encryption Challenge - Decryption')
     pygame.display.set_icon(lockIcon)
 
     # Load images

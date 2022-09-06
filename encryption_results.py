@@ -78,7 +78,7 @@ def print_summary_text(xPos, yPos, text):
 
 
 def main_results(levelSelect, agentName, agentAge, agentSecret, agentHacked, agentScore, agentPassword):
-    pygame.display.set_caption('Authentication Challenge - Results')
+    pygame.display.set_caption('Encryption Challenge - Results')
     lockIcon = pygame.image.load('gfx/lock.ico')
     pygame.display.set_icon(lockIcon)
 

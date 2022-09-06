@@ -46,7 +46,7 @@ mouseClick = pygame.mixer.Sound('snd/click.mp3')
 
 
 def main_level():
-    pygame.display.set_caption('Caesar Cipher Challenge - Select Level')
+    pygame.display.set_caption('Encryption Challenge - Select Level')
     lockIcon = pygame.image.load('gfx/lock.ico')
     pygame.display.set_icon(lockIcon)
 
