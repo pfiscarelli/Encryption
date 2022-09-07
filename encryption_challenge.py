@@ -6,6 +6,9 @@ import random
 from encryption_results import *
 
 SPACE_REF = 32
+BACKSPACE_REF = 8
+RETURN_REF = 13
+
 A_REF = 65
 Z_REF = 90
 
@@ -79,8 +82,10 @@ def getKeyIn(inputKey):
     # print('keyIn: ' + str(inputKey))
     if inputKey == SPACE_REF:
         return ' '
-    elif inputKey == 8:
+    elif inputKey == BACKSPACE_REF:
         return 'BS'
+    elif inputKey == RETURN_REF:
+        return 'CR'
     elif (inputKey >= 97) and (inputKey <= 122):
         return chr(inputKey - 32)
     elif (inputKey >= A_REF) and (inputKey <= Z_REF):
@@ -255,7 +260,7 @@ def main_challenge(levelSelect, agentName, agentAge, agentSecret, agentHacked):
                         keyIn = getKeyIn(event.key)
                         if keyIn == 'BS':
                             inputString = inputString[:-1]
-                        else:
+                        elif keyIn != 'CR':
                             if len(inputString) < len(clearText):
                                 inputString += keyIn
                                 pygame.draw.rect(gameSurface, BLACK, cursorRect)
